@@ -1,0 +1,38 @@
+local dge = require "dge.dge"
+local rendercam = require "rendercam.rendercam"
+
+local stride = 16
+local walk_speed = 3
+
+local dge_config = {
+	debug = true,
+	stride = stride
+}
+
+local collision_map = {
+	{2, 2, 2, 2, 2, 2},
+	{2, 1, 1, 1, 1, 2},
+	{2, 1, 1, 1, 1, 2},
+	{2, 2, 2, 2, 2, 2}
+}
+
+local character_config = {
+	size = vmath.vector3(32, 46, 0)
+	direction = dge.direction.down,
+	speed = walk_speed
+}
+
+function init(self)
+	dge.init(dge_config)
+	dge.set_collision_map(collision_map)
+
+	self.dge = dge.register(character_config)
+end
+
+function update(self, dt)
+	self.dge.update(dt)
+end
+
+function final(self)
+	self.dge.unregister()
+end

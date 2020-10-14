@@ -4,6 +4,18 @@ animations {
     image: "/main/assets/player_down_idle.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
+  images {
+    image: "/main/assets/player_left_idle.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/main/assets/player_right_idle.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  images {
+    image: "/main/assets/player_up_idle.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
   playback: PLAYBACK_LOOP_FORWARD
   fps: 4
   flip_horizontal: 0
