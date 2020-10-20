@@ -1,19 +1,84 @@
 animations {
-  id: "player_idle"
+  id: "player_idle_up"
+  images {
+    image: "/main/assets/player_up_idle.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player_idle_down"
   images {
     image: "/main/assets/player_down_idle.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player_idle_left"
   images {
     image: "/main/assets/player_left_idle.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player_idle_right"
   images {
     image: "/main/assets/player_right_idle.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player_walk_up"
   images {
     image: "/main/assets/player_up_idle.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player_walk_down"
+  images {
+    image: "/main/assets/player_down_idle.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player_walk_left"
+  images {
+    image: "/main/assets/player_left_idle.png"
+    sprite_trim_mode: SPRITE_TRIM_MODE_OFF
+  }
+  playback: PLAYBACK_LOOP_FORWARD
+  fps: 4
+  flip_horizontal: 0
+  flip_vertical: 0
+}
+animations {
+  id: "player_walk_right"
+  images {
+    image: "/main/assets/player_right_idle.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
   playback: PLAYBACK_LOOP_FORWARD

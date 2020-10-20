@@ -1,5 +1,6 @@
 [bootstrap]
 main_collection = /main/main.collectionc
+render = /rendercam/rendercam.renderc
 
 [script]
 shared_state = 1
@@ -14,8 +15,12 @@ input_method = HiddenInputField
 
 [project]
 title = Pokémon Project
-dependencies = https://github.com/gymratgames/defold-grid-engine/releases/tag/0.4.0
+dependencies = https://github.com/rgrams/rendercam/archive/v1.0.2.zip
 
 [tilemap]
 max_tile_count = 2048
+
+[graphics]
+default_texture_mag_filter = nearest
+default_texture_min_filter = nearest
 
