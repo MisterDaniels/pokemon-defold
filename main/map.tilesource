@@ -4513,7 +4513,7 @@ convex_hulls {
 convex_hulls {
   index: 1882
   count: 4
-  collision_group: "passable"
+  collision_group: ""
 }
 convex_hulls {
   index: 1886
@@ -15006,7 +15006,6 @@ convex_hulls {
   collision_group: ""
 }
 collision_groups: "not_passable"
-collision_groups: "passable"
 animations {
   id: "anim"
   start_tile: 1
@@ -15016,6 +15015,6 @@ animations {
   flip_horizontal: 0
   flip_vertical: 0
 }
-extrude_borders: 2
+extrude_borders: 1
 inner_padding: 0
 sprite_trim_mode: SPRITE_TRIM_MODE_OFF

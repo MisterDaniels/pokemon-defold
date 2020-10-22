@@ -1,7 +1,7 @@
 tile_set: "/main/map.tilesource"
 layers {
   id: "terrain"
-  z: 0.0
+  z: 0.1
   is_visible: 1
   cell {
     x: 0
@@ -510,7 +510,7 @@ layers {
 }
 layers {
   id: "water"
-  z: 1.0
+  z: 0.12
   is_visible: 1
   cell {
     x: -8
