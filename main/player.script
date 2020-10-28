@@ -13,9 +13,11 @@ end
 function update(self, dt)
 	if self.moving then
 		local pos = go.get_position()
-		pos = pos + self.dir
-		print(pos)
-		go.set_position(pos)
+		new_pos = pos + self.dir
+		
+		go.set_position(new_pos)
+		
+		self.last_pos = pos
 	end
 
 	self.input.x = 0
@@ -60,8 +62,11 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash('trigger_response') then
 		if message.enter then
 			print('collided')
+			go.set_position(self.last_pos)
+			self.is_in_collision = true
 		else
 			print('not collided')
+			self.is_in_collision = false
 		end
 	end
 end
