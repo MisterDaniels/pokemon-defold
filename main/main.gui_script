@@ -20,6 +20,11 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash('notify') then
 		local message_node = gui.get_node('message')
 		gui.set_text(message_node, message.text)
+
+		local hide_timer = timer.delay(2, false, function()
+			gui.set_text(message_node, '')
+			self.showing_message = false
+		end)
 	end
 end
 
