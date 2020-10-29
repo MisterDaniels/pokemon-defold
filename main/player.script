@@ -64,6 +64,8 @@ function on_message(self, message_id, message, sender)
 			print('collided')
 			go.set_position(self.last_pos)
 			self.is_in_collision = true
+
+			msg.post('/ui#main', 'notify', { text = 'Not possible to move here' })
 		else
 			print('not collided')
 			self.is_in_collision = false
