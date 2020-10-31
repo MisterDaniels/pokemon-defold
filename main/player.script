@@ -1,6 +1,7 @@
-local rendercam = require "rendercam.rendercam"
+local rendercam = require 'rendercam.rendercam'
+local main_module = require 'main/main'
 
-local tile_size = 16
+local tile_size = main_module.tile_size
 
 function init(self)
 	msg.post('.', 'acquire_input_focus')
@@ -40,16 +41,16 @@ function on_input(self, action_id, action)
 	
 	if action_id == hash('up') and action.pressed then
 		self.input.y = tile_size
-		msg.post('#player_sprite', 'play_animation', { id = hash('player_idle_up') })
+		msg.post('#player_sprite', 'play_animation', { id = hash('player_walk_up') })
 	elseif action_id == hash('down') and action.pressed then
 		self.input.y = -tile_size
-		msg.post('#player_sprite', 'play_animation', { id = hash('player_idle_down') })
+		msg.post('#player_sprite', 'play_animation', { id = hash('player_walk_down') })
 	elseif action_id == hash('left') and action.pressed then
 		self.input.x = -tile_size
-		msg.post('#player_sprite', 'play_animation', { id = hash('player_idle_left') })
+		msg.post('#player_sprite', 'play_animation', { id = hash('player_walk_left') })
 	elseif action_id == hash('right') and action.pressed then
 		self.input.x = tile_size
-		msg.post('#player_sprite', 'play_animation', { id = hash('player_idle_right') })
+		msg.post('#player_sprite', 'play_animation', { id = hash('player_walk_right') })
 	end
 	
 	if vmath.length(self.input) > 0 and (shortcut_trigger == false or shortcut_trigger == nil) then
