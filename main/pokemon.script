@@ -1,41 +1,50 @@
-function init(self)
-	-- Add initialization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
+local main_module = require 'main/main'
 
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
+local tile_size = main_module.tile_size
+
+function init(self)
+	self.owner = 'player'
+	
+	self.moving = false
+	self.input = vmath.vector3()
+	self.dir = vmath.vector3(0, 1, 0)
 end
 
 function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
+	if self.moving then
+		local pos = go.get_position()
+		new_pos = pos + self.dir
+
+		go.set_position(new_pos)
+
+		self.last_pos = pos
+	end
+
+	self.input.x = 0
+	self.input.y = 0
+	self.moving = false
 end
 
 function on_message(self, message_id, message, sender)
-	-- Add message-handling code here
-	-- Learn more: https://defold.com/manuals/message-passing/
-	-- Remove this function if not needed
-end
+	if message_id == hash('follow') then
+		if message.direction == hash('up') then
+			self.input.y = tile_size
+			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_up') })
+		elseif message.direction == hash('down') then
+			self.input.y = -tile_size
+			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_down') })
+			print 'down'
+		elseif message.direction == hash('left') then
+			self.input.x = -tile_size
+			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_left') })
+		elseif message.direction == hash('right') then
+			self.input.x = tile_size
+			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_right') })
+		end
 
-function on_input(self, action_id, action)
-	-- Add input-handling code here. The game object this script is attached to
-	-- must have acquired input focus:
-	--
-	--    msg.post(".", "acquire_input_focus")
-	--
-	-- All mapped input bindings will be received. Mouse and touch input will
-	-- be received regardless of where on the screen it happened.
-	-- Learn more: https://defold.com/manuals/input/
-	-- Remove this function if not needed
-end
-
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
+		if vmath.length(self.input) > 0 then
+			self.moving = true
+			self.dir = self.input
+		end
+	end
 end

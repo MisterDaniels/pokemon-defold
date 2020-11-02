@@ -8,8 +8,8 @@ animations {
     image: "/main/assets/pokemon/bulbasaur_up_2.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
-  playback: PLAYBACK_LOOP_FORWARD
-  fps: 30
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 10
   flip_horizontal: 0
   flip_vertical: 0
 }
@@ -23,8 +23,8 @@ animations {
     image: "/main/assets/pokemon/bulbasaur_down_2.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
-  playback: PLAYBACK_LOOP_FORWARD
-  fps: 30
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 10
   flip_horizontal: 0
   flip_vertical: 0
 }
@@ -38,8 +38,8 @@ animations {
     image: "/main/assets/pokemon/bulbasaur_left_2.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
-  playback: PLAYBACK_LOOP_FORWARD
-  fps: 30
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 10
   flip_horizontal: 0
   flip_vertical: 0
 }
@@ -53,8 +53,8 @@ animations {
     image: "/main/assets/pokemon/bulbasaur_right_2.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
-  playback: PLAYBACK_LOOP_FORWARD
-  fps: 30
+  playback: PLAYBACK_ONCE_FORWARD
+  fps: 10
   flip_horizontal: 0
   flip_vertical: 0
 }
