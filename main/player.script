@@ -42,19 +42,19 @@ function on_input(self, action_id, action)
 	if action_id == hash('up') and action.pressed then
 		self.input.y = tile_size
 		msg.post('#player_sprite', 'play_animation', { id = hash('player_walk_up') })
-		msg.post('/pokemon', 'follow', { direction = hash('up') })
+		msg.post('/pokemon', 'follow', { direction = hash('up'), position = go.get_position() })
 	elseif action_id == hash('down') and action.pressed then
 		self.input.y = -tile_size
 		msg.post('#player_sprite', 'play_animation', { id = hash('player_walk_down') })
-		msg.post('/pokemon', 'follow', { direction = hash('down') })
+		msg.post('/pokemon', 'follow', { direction = hash('down'), position = go.get_position() })
 	elseif action_id == hash('left') and action.pressed then
 		self.input.x = -tile_size
 		msg.post('#player_sprite', 'play_animation', { id = hash('player_walk_left') })
-		msg.post('/pokemon', 'follow', { direction = hash('left') })
+		msg.post('/pokemon', 'follow', { direction = hash('left'), position = go.get_position() })
 	elseif action_id == hash('right') and action.pressed then
 		self.input.x = tile_size
 		msg.post('#player_sprite', 'play_animation', { id = hash('player_walk_right') })
-		msg.post('/pokemon', 'follow', { direction = hash('right') })
+		msg.post('/pokemon', 'follow', { direction = hash('right'), position = go.get_position() })
 	end
 	
 	if vmath.length(self.input) > 0 and (shortcut_trigger == false or shortcut_trigger == nil) then
@@ -68,6 +68,9 @@ function on_message(self, message_id, message, sender)
 		if message.enter then
 			print('collided')
 			go.set_position(self.last_pos)
+			
+			msg.post('/pokemon', 'follow', { direction = hash('none'), position = hash('go_back') })
+			
 			self.is_in_collision = true
 
 			msg.post('/ui#main', 'notify', { text = 'Not possible to move here' })

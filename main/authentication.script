@@ -9,18 +9,22 @@ local config = {
 	engine = defold
 }
 
+local isOnline = false
+
 function init(self)
-	local client = nakama.create_client(config)
+	if isOnline then
+		local client = nakama.create_client(config)
 
-	local email = 'example@example.com'
-	local password = 'password'
-	local body = nakama.create_api_account_email(email, password)
+		local email = 'example@example.com'
+		local password = 'password'
+		local body = nakama.create_api_account_email(email, password)
 
-	nakama.sync(function()
-		local session = nakama.authenticate_email(client, body)
-		nakama.set_bearer_token(client, session.token)
+		nakama.sync(function()
+			local session = nakama.authenticate_email(client, body)
+			nakama.set_bearer_token(client, session.token)
 
-		local account = nakama.get_account(client)
-		print('user id is ' .. account.user_id .. ' and username is ' .. account.username)
-	end)
+			local account = nakama.get_account(client)
+			print('user id is ' .. account.user_id .. ' and username is ' .. account.username)
+		end)
+	end
 end

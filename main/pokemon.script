@@ -11,40 +11,27 @@ function init(self)
 end
 
 function update(self, dt)
-	if self.moving then
-		local pos = go.get_position()
-		new_pos = pos + self.dir
-
-		go.set_position(new_pos)
-
-		self.last_pos = pos
-	end
-
-	self.input.x = 0
-	self.input.y = 0
-	self.moving = false
+	
 end
 
 function on_message(self, message_id, message, sender)
 	if message_id == hash('follow') then
 		if message.direction == hash('up') then
-			self.input.y = tile_size
 			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_up') })
 		elseif message.direction == hash('down') then
-			self.input.y = -tile_size
 			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_down') })
-			print 'down'
 		elseif message.direction == hash('left') then
-			self.input.x = -tile_size
 			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_left') })
 		elseif message.direction == hash('right') then
-			self.input.x = tile_size
 			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_right') })
 		end
 
-		if vmath.length(self.input) > 0 then
-			self.moving = true
-			self.dir = self.input
+		if message.position == hash('go_back') then
+			go.set_position(self.last_pos)
+			return
 		end
+
+		self.last_pos = go.get_position()
+		go.set_position(message.position)
 	end
 end
