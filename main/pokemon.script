@@ -1,30 +1,20 @@
-local main_module = require 'main/main'
-
-local tile_size = main_module.tile_size
+local util_module = require 'main/util'
 
 function init(self)
-	self.owner = 'player'
-	
 	self.moving = false
 	self.input = vmath.vector3()
 	self.dir = vmath.vector3(0, 1, 0)
-end
 
-function update(self, dt)
-	
+	go.property('owner', hash('pokemon_owner'))
+	go.property('go', hash('pokemon_go'))
+	go.property('name', hash('pokemon_name'))
 end
 
 function on_message(self, message_id, message, sender)
+	pokemon_name = util_module.convert_hash_to_string(self.go)
+	
 	if message_id == hash('follow') then
-		if message.direction == hash('up') then
-			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_up') })
-		elseif message.direction == hash('down') then
-			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_down') })
-		elseif message.direction == hash('left') then
-			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_left') })
-		elseif message.direction == hash('right') then
-			msg.post('#pokemon_sprite', 'play_animation', { id = hash('pokemon_walk_right') })
-		end
+		util_module.change_animation_by_direction('#pokemon_sprite', message.direction, pokemon_name)
 
 		if message.position == hash('go_back') then
 			go.set_position(self.last_pos)

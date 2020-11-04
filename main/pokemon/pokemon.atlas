@@ -1,5 +1,5 @@
 animations {
-  id: "pokemon_walk_up"
+  id: "bulbasaur_walk_up"
   images {
     image: "/main/assets/pokemon/bulbasaur_up_1.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
@@ -14,7 +14,7 @@ animations {
   flip_vertical: 0
 }
 animations {
-  id: "pokemon_walk_down"
+  id: "bulbasaur_walk_down"
   images {
     image: "/main/assets/pokemon/bulbasaur_down_1.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
@@ -29,7 +29,7 @@ animations {
   flip_vertical: 0
 }
 animations {
-  id: "pokemon_walk_left"
+  id: "bulbasaur_walk_left"
   images {
     image: "/main/assets/pokemon/bulbasaur_left_1.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
@@ -44,7 +44,7 @@ animations {
   flip_vertical: 0
 }
 animations {
-  id: "pokemon_walk_right"
+  id: "bulbasaur_walk_right"
   images {
     image: "/main/assets/pokemon/bulbasaur_right_1.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF

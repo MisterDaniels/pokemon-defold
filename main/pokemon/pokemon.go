@@ -16,8 +16,8 @@ components {
 embedded_components {
   id: "pokemon_sprite"
   type: "sprite"
-  data: "tile_set: \"/main/pokemon.atlas\"\n"
-  "default_animation: \"pokemon_walk_down\"\n"
+  data: "tile_set: \"/main/pokemon/pokemon.atlas\"\n"
+  "default_animation: \"bulbasaur_walk_down\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
   "blend_mode: BLEND_MODE_ALPHA\n"
   ""

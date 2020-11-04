@@ -1,0 +1,12 @@
+{
+	"pokemon": [
+		{
+			"name": "Bulbasaur",
+			"go": "bulbasaur"
+		},
+		{
+			"name": "Ivysaur",
+			"go": "ivysaur"
+		}
+	]
+}
