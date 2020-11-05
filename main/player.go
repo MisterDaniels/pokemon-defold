@@ -13,6 +13,21 @@ components {
     w: 1.0
   }
 }
+components {
+  id: "player_pokemon"
+  component: "/main/pokemon/pokemon.factory"
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+}
 embedded_components {
   id: "player_sprite"
   type: "sprite"

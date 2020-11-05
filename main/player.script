@@ -11,6 +11,8 @@ function init(self)
 	self.pokemon_out = false
 	self.input = vmath.vector3()
 	self.dir = vmath.vector3(0, 1, 0)
+
+	msg.post('/game#spawn', 'spawn')
 end
 
 function update(self, dt)
@@ -94,14 +96,11 @@ function on_message(self, message_id, message, sender)
 		end
 		
 		local selected_pokemon = pokemon_module.get_pokemon(message.pokemon_id)
-		self.pokemon_instance = factory.create('/creatures#player_pokemon', self.last_pos, nil, { 
+		self.pokemon_instance = factory.create('/player#player_pokemon', self.last_pos, nil, { 
 			owner = hash('player'),
 			go = hash(selected_pokemon.go),
 			name = hash(selected_pokemon.name)
 		}, 1)
-		
-		local pokemon_instance_sprite = msg.url(nil, self.pokemon_instance, 'pokemon_sprite')
-		msg.post(pokemon_instance_sprite, 'play_animation', { id = hash(selected_pokemon.go .. '_walk_down') })
 
 		self.pokemon_out = true
 	end

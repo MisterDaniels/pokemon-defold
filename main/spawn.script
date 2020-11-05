@@ -1,0 +1,55 @@
+local pokemon_module = require 'main/pokemon'
+local util_module = require 'main/util'
+
+function init(self)
+	self.pokemons_instances = {}
+	self.spawn_time = 5
+	self.spawn_max = 2
+	self.spawn_factory = '/creature#spawn'
+	self.spawn_size = {
+		begin = {
+			x = 0,
+			y = 0
+		},
+		finish = {
+			x = 16,
+			y = 16
+		} 
+	}
+end
+
+function on_message(self, message_id, message, sender)
+	if message_id == hash('spawn') then
+		print('spawn')
+		init_spawn(self, 1)
+	end
+end
+
+function init_spawn(self, pokemon_id)
+	self.spawn_timer = timer.delay(self.spawn_time, true, function()
+		if #self.pokemons_instances < self.spawn_max then
+			local selected_pokemon = pokemon_module.get_pokemon(pokemon_id)
+
+			local pokemon_instance = factory.create(self.spawn_factory, get_random_pos(self.spawn_size), nil, {
+				owner = hash('nature'),
+				go = hash(selected_pokemon.go),
+				name = hash(selected_pokemon.name)
+			}, 1)
+
+			table.insert(self.pokemons_instances, pokemon_instance)
+
+			print(pokemon_instance)
+		end
+	end)
+end
+
+function stop_spawn(self)
+	timer.cancel(self.spawn_timer)
+end
+
+function get_random_pos(spawn_size)
+	local x_value = util_module.get_random_number_between(spawn_size.begin.x, spawn_size.finish.x)
+	local y_value = util_module.get_random_number_between(spawn_size.begin.y, spawn_size.finish.y)
+
+	return vmath.vector3(util_module.convert_to_tile_size(x_value), util_module.convert_to_tile_size(y_value), 1)
+end

@@ -152,6 +152,21 @@ embedded_instances {
   "    w: 1.0\n"
   "  }\n"
   "}\n"
+  "components {\n"
+  "  id: \"spawn\"\n"
+  "  component: \"/main/spawn.script\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
   ""
   position {
     x: 0.0
@@ -171,10 +186,10 @@ embedded_instances {
   }
 }
 embedded_instances {
-  id: "creatures"
+  id: "creature"
   data: "components {\n"
-  "  id: \"player_pokemon\"\n"
-  "  component: \"/main/pokemon/pokemon.factory\"\n"
+  "  id: \"spawn\"\n"
+  "  component: \"/main/spawn.factory\"\n"
   "  position {\n"
   "    x: 0.0\n"
   "    y: 0.0\n"

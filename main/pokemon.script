@@ -8,6 +8,12 @@ function init(self)
 	go.property('owner', hash('pokemon_owner'))
 	go.property('go', hash('pokemon_go'))
 	go.property('name', hash('pokemon_name'))
+
+	pokemon_name = util_module.convert_hash_to_string(self.go)
+	local pokemon_instance_sprite = msg.url(nil, go.get_id(), 'pokemon_sprite')
+	msg.post(pokemon_instance_sprite, 'play_animation', { id = hash(pokemon_name .. '_walk_down') })
+
+	pprint(go.get_position())
 end
 
 function on_message(self, message_id, message, sender)
