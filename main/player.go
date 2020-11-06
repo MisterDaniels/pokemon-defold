@@ -56,7 +56,7 @@ embedded_components {
   "mass: 0.0\n"
   "friction: 0.0\n"
   "restitution: 0.0\n"
-  "group: \"character\"\n"
+  "group: \"player\"\n"
   "mask: \"not_passable\"\n"
   "mask: \"pokemon\"\n"
   "mask: \"range\"\n"

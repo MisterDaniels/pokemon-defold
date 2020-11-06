@@ -4,18 +4,6 @@ function init(self)
 	-- Remove this function if not needed
 end
 
-function final(self)
-	-- Add finalization code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
-function update(self, dt)
-	-- Add update code here
-	-- Learn more: https://defold.com/manuals/script/
-	-- Remove this function if not needed
-end
-
 function on_message(self, message_id, message, sender)
 	if message_id == hash('notify') then
 		local message_node = gui.get_node('message')
@@ -26,22 +14,59 @@ function on_message(self, message_id, message, sender)
 			self.showing_message = false
 		end)
 	end
-end
 
-function on_input(self, action_id, action)
-	-- Add input-handling code here. The game object this script is attached to
-	-- must have acquired input focus:
-	--
-	--    msg.post(".", "acquire_input_focus")
-	--
-	-- All mapped input bindings will be received. Mouse and touch input will
-	-- be received regardless of where on the screen it happened.
-	-- Learn more: https://defold.com/manuals/input/
-	-- Remove this function if not needed
-end
+	if message_id == hash('change_life') then
+		local life_node = gui.get_node(message.target)
+		gui.set_text(life_node, message.life)
+	end
 
-function on_reload(self)
-	-- Add reload-handling code here
-	-- Learn more: https://defold.com/manuals/hot-reload/
-	-- Remove this function if not needed
+	if message_id == hash('change_pokemon') then	
+		local player_pokemon_name_node = gui.get_node('player_pokemon_name')
+		gui.set_text(player_pokemon_name_node, message.name)
+
+		local player_pokemon_life = gui.get_node('player_pokemon_life')
+		gui.set_text(player_pokemon_life, message.life)
+
+		if self.player_pokemon_hided then
+			gui.set_enabled(player_pokemon_name_node, true)
+			gui.set_enabled(player_pokemon_life, true)
+
+			self.player_pokemon_hided = false
+		end
+	end
+
+	if message_id == hash('hide_pokemon') then
+		local player_pokemon_name_node = gui.get_node('player_pokemon_name')
+		gui.set_enabled(player_pokemon_name_node, false)
+
+		local player_pokemon_life = gui.get_node('player_pokemon_life')
+		gui.set_enabled(player_pokemon_life, false)
+
+		self.player_pokemon_hided = true
+	end
+
+	if message_id == hash('change_target') then
+		local target_pokemon_name_node = gui.get_node('target_pokemon_name')
+		gui.set_enabled(target_pokemon_name_node, false)
+
+		local target_pokemon_life = gui.get_node('target_pokemon_life')
+		gui.set_enabled(target_pokemon_life, false)
+
+		if self.target_pokemon_hided then
+			gui.set_enabled(target_pokemon_name_node, true)
+			gui.set_enabled(target_pokemon_life, true)
+
+			self.target_pokemon_hided = false
+		end
+	end
+
+	if message_id == hash('hide_target') then
+		local target_pokemon_name_node = gui.get_node('target_pokemon_name')
+		gui.set_enabled(target_pokemon_name_node, false)
+
+		local target_pokemon_life = gui.get_node('target_pokemon_life')
+		gui.set_enabled(target_pokemon_life, false)
+
+		self.target_pokemon_hided = true
+	end
 end

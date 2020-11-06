@@ -10,8 +10,7 @@ function Alive.deal_damage(life, damage)
 	if life_post_damage < 0 then
 		life_post_damage = 0
 	end
-
-	pprint(life_post_damage)
+	
 	return life_post_damage
 end
 

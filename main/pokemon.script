@@ -41,18 +41,18 @@ function on_message(self, message_id, message, sender)
 				print('spotted')
 
 				if self.is_attacking == false then
-					self.attack_timer = timer.delay(self.time_between_attack, true, function()
-						print('attacking')
-						
-						local random_damage = util_module.get_random_number_between(0, self.damage)
-						local character_pokemon = go.get(util_module.convert_hash_to_string(message.other_id) .. '#player', 'pokemon_instance')
+					if self.owner == hash('nature') and message.group == hash('player') then
+						self.attack_timer = timer.delay(self.time_between_attack, true, function()
+							local random_damage = util_module.get_random_number_between(0, self.damage)
+							local character_pokemon = go.get(util_module.convert_hash_to_string(message.other_id) .. '#player', 'pokemon_instance')
 
-						if character_pokemon then
-							msg.post(character_pokemon, 'deal_damage', { damage = random_damage })
-						else 
-							msg.post(message.other_id, 'deal_damage', { damage = random_damage })
-						end
-					end) 
+							if character_pokemon then
+								msg.post(character_pokemon, 'deal_damage', { damage = random_damage })
+							else
+								msg.post(message.other_id, 'deal_damage', { damage = random_damage })
+							end
+						end) 
+					end
 				end
 			end
 		else
@@ -68,6 +68,16 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash('deal_damage') then
 		if message.damage then
 			print('damage ' .. message.damage)
+
+			local target = 'target_pokemon_life'
+			if self.owner == hash('player') then
+				target = 'player_pokemon_life'
+			end
+
+			msg.post('/ui#main', 'change_life', { 
+				target = target,
+				life = 100 
+			})
 		else
 			print('miss')
 		end

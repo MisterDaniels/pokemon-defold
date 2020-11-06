@@ -7,15 +7,16 @@ local tile_size = main_module.tile_size
 
 function init(self)
 	msg.post('.', 'acquire_input_focus')
+	msg.post('/game#spawn', 'spawn')
 
 	self.moving = false
 	self.pokemon_out = false
-	self.input = vmath.vector3()
-	self.dir = vmath.vector3(0, 1, 0)
 
 	go.property('pokemon_instance', false)
+	go.property('life', 100)
 
-	msg.post('/game#spawn', 'spawn')
+	self.input = vmath.vector3()
+	self.dir = vmath.vector3(0, 1, 0)
 end
 
 function update(self, dt)
@@ -105,20 +106,41 @@ function on_message(self, message_id, message, sender)
 			name = hash(selected_pokemon.name)
 		}, 1)
 
+		msg.post('/ui#main', 'change_pokemon', { 
+			name = selected_pokemon.name,
+			life = 100
+		})
+
 		self.pokemon_out = true
 	end
 
 	if message_id == hash('hide_pokemon') then
 		if self.pokemon_out then
 			go.delete(self.pokemon_instance)
-
+			msg.post('/ui#main', 'hide_pokemon')
+			
 			self.pokemon_out = false
 		end
 	end
 
 	if message_id == hash('deal_damage') then
 		if message.damage then
-			print('damage ' .. message.damage)
+			if (self.life - message.damage) <= 0 then
+				go.delete()
+				
+				msg.post('/ui#main', 'change_life', { 
+					target = 'player_life',
+					life = 0 
+				})
+				
+				return
+			end
+			
+			self.life = self.life - message.damage
+			msg.post('/ui#main', 'change_life', { 
+				target = 'player_life',
+				life = self.life
+			})
 		else
 			print('miss')
 		end
