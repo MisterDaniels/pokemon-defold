@@ -2,12 +2,16 @@ local util_module = require 'main/util'
 
 function init(self)
 	self.moving = false
+	self.is_attacking = false
+	
 	self.input = vmath.vector3()
 	self.dir = vmath.vector3(0, 1, 0)
 
 	go.property('owner', hash('pokemon_owner'))
 	go.property('go', hash('pokemon_go'))
 	go.property('name', hash('pokemon_name'))
+	go.property('time_between_attack', 3)
+	go.property('damage', 20)
 
 	pokemon_name = util_module.convert_hash_to_string(self.go)
 	local pokemon_instance_sprite = msg.url(nil, go.get_id(), 'pokemon_sprite')
@@ -29,5 +33,43 @@ function on_message(self, message_id, message, sender)
 
 		self.last_pos = go.get_position()
 		go.set_position(message.position)
+	end
+
+	if message_id == hash('trigger_response') then
+		if message.enter then
+			if sender == msg.url('#collision_range') then
+				print('spotted')
+
+				if self.is_attacking == false then
+					self.attack_timer = timer.delay(self.time_between_attack, true, function()
+						print('attacking')
+						
+						local random_damage = util_module.get_random_number_between(0, self.damage)
+						local character_pokemon = go.get(util_module.convert_hash_to_string(message.other_id) .. '#player', 'pokemon_instance')
+
+						if character_pokemon then
+							msg.post(character_pokemon, 'deal_damage', { damage = random_damage })
+						else 
+							msg.post(message.other_id, 'deal_damage', { damage = random_damage })
+						end
+					end) 
+				end
+			end
+		else
+			if sender == msg.url('#collision_range') then
+				print('unspotted')
+
+				timer.cancel(self.attack_timer)
+				self.is_attacking = false
+			end
+		end
+	end
+
+	if message_id == hash('deal_damage') then
+		if message.damage then
+			print('damage ' .. message.damage)
+		else
+			print('miss')
+		end
 	end
 end

@@ -51,5 +51,5 @@ function get_random_pos(spawn_size)
 	local x_value = util_module.get_random_number_between(spawn_size.begin.x, spawn_size.finish.x)
 	local y_value = util_module.get_random_number_between(spawn_size.begin.y, spawn_size.finish.y)
 
-	return vmath.vector3(util_module.convert_to_tile_size(x_value), util_module.convert_to_tile_size(y_value), 1)
+	return vmath.vector3(util_module.convert_to_tile_size(x_value), util_module.convert_to_tile_size(y_value), 0.9)
 end

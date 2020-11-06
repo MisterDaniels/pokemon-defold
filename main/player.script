@@ -1,6 +1,7 @@
 local rendercam = require 'rendercam.rendercam'
 local main_module = require 'main/main'
 local pokemon_module = require 'main/pokemon'
+local alive = require 'main/alive'
 
 local tile_size = main_module.tile_size
 
@@ -11,6 +12,8 @@ function init(self)
 	self.pokemon_out = false
 	self.input = vmath.vector3()
 	self.dir = vmath.vector3(0, 1, 0)
+
+	go.property('pokemon_instance', false)
 
 	msg.post('/game#spawn', 'spawn')
 end
@@ -76,16 +79,16 @@ end
 function on_message(self, message_id, message, sender)
 	if message_id == hash('trigger_response') then
 		if message.enter then
-			print('collided')
-			go.set_position(self.last_pos)
-			
-			msg.post(self.pokemon_instance, 'follow', { direction = hash('none'), position = hash('go_back') })
-			
-			self.is_in_collision = true
+			if message.group == hash('not_passable') then
+				go.set_position(self.last_pos)
+				
+				msg.post(self.pokemon_instance, 'follow', { direction = hash('none'), position = hash('go_back') })
+				
+				self.is_in_collision = true
 
-			msg.post('/ui#main', 'notify', { text = 'Not possible to move here' })
+				msg.post('/ui#main', 'notify', { text = 'Not possible to move here' })
+			end
 		else
-			print('not collided')
 			self.is_in_collision = false
 		end
 	end
@@ -110,6 +113,14 @@ function on_message(self, message_id, message, sender)
 			go.delete(self.pokemon_instance)
 
 			self.pokemon_out = false
+		end
+	end
+
+	if message_id == hash('deal_damage') then
+		if message.damage then
+			print('damage ' .. message.damage)
+		else
+			print('miss')
 		end
 	end
 end
