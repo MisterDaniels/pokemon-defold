@@ -132,6 +132,8 @@ function on_message(self, message_id, message, sender)
 					target = 'player_life',
 					life = 0 
 				})
+
+				msg.post(sender, 'stop_attacking')
 				
 				return
 			end

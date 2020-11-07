@@ -12,6 +12,7 @@ function init(self)
 	go.property('name', hash('pokemon_name'))
 	go.property('time_between_attack', 3)
 	go.property('damage', 20)
+	go.property('life', 100)
 
 	pokemon_name = util_module.convert_hash_to_string(self.go)
 	local pokemon_instance_sprite = msg.url(nil, go.get_id(), 'pokemon_sprite')
@@ -51,8 +52,18 @@ function on_message(self, message_id, message, sender)
 							else
 								msg.post(message.other_id, 'deal_damage', { damage = random_damage })
 							end
+						end)
+					pprint(message.group)
+					elseif self.owner == hash('player') and message.group == hash('range') then
+						pprint('pokemon player attacking')
+						self.attack_timer = timer.delay(self.time_between_attack, true, function()
+							local random_damage = util_module.get_random_number_between(0, self.damage)
+
+							msg.post(message.other_id, 'deal_damage', { damage = random_damage })
 						end) 
 					end
+
+					self.is_attacking = false
 				end
 			end
 		else
@@ -67,19 +78,33 @@ function on_message(self, message_id, message, sender)
 
 	if message_id == hash('deal_damage') then
 		if message.damage then
-			print('damage ' .. message.damage)
+			if (self.life - message.damage) <= 0 then
+				go.delete()
+				self.life = 0
+
+				if self.owner == hash('player') then
+					go.set('/player#player', 'pokemon_instance', false)
+				end
+			else 
+				self.life = self.life - message.damage
+			end
 
 			local target = 'target_pokemon_life'
 			if self.owner == hash('player') then
 				target = 'player_pokemon_life'
 			end
 
-			msg.post('/ui#main', 'change_life', { 
+			msg.post('/ui#main', 'change_life', {
 				target = target,
-				life = 100 
+				life = self.life
 			})
 		else
 			print('miss')
 		end
+	end
+
+	if message_id == hash('stop_attacking') then
+		timer.cancel(self.attack_timer)
+		self.is_attacking = false
 	end
 end

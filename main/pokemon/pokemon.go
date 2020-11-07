@@ -95,6 +95,7 @@ embedded_components {
   "mask: \"character\"\n"
   "mask: \"pokemon\"\n"
   "mask: \"player\"\n"
+  "mask: \"range\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_BOX\n"
