@@ -1,13 +1,7 @@
-# Welcome to Defold
+# Pokémon Defold Project
 
-This project was created from the "empty" project template.
+Link for Machinations: https://my.machinations.io/public/Pok%C3%A9mon-Defold-Project/006bfdf34d3cf89dea23c378ff3599d9d
 
-The settings in ["game.project"](defold://open?path=/game.project) are all the default. A bootstrap empty ["main.collection"](defold://open?path=/main/main.collection) is included.
+Link for Miro: https://miro.com/welcome/ZAeqaWi4GcY2b3wgIyqca7k8FqRAbYYm5YZLurJ4bUNlaWHqrPqO7gnrfi7ESZxb
 
-Check out [the documentation pages](https://defold.com/learn) for examples, tutorials, manuals and API docs.
-
-If you run into trouble, help is available in [our forum](https://forum.defold.com).
-
-Happy Defolding!
-
----
+Link for Codecks: https://open.codecks.io/pokemon-defold-project
