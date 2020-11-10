@@ -1,0 +1,7 @@
+function init(self)
+	go.property('time_to_hide', 2)
+
+	local hide_timer = timer.delay(self.time_to_hide, false, function()
+		go.delete()
+	end)
+end

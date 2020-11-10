@@ -100,7 +100,8 @@ function on_message(self, message_id, message, sender)
 		end
 		
 		local selected_pokemon = pokemon_module.get_pokemon(message.pokemon_id)
-		self.pokemon_instance = factory.create('/player#player_pokemon', self.last_pos, nil, { 
+		local pos = vmath.vector3(self.last_pos.x, self.last_pos.y, 0.9)
+		self.pokemon_instance = factory.create('/player#player_pokemon', pos, nil, { 
 			owner = hash('player'),
 			go = hash(selected_pokemon.go),
 			name = hash(selected_pokemon.name)

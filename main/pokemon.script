@@ -98,6 +98,9 @@ function on_message(self, message_id, message, sender)
 				target = target,
 				life = self.life
 			})
+
+			local pos = new vmath.vector3(go.get_position().x, go.get_position().y, 0.1)
+			factory.create('/game#blood', pos, nil, {}, 1)
 		else
 			print('miss')
 		end
