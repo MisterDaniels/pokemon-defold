@@ -1,4 +1,5 @@
 local util_module = require 'main/util'
+local cursor = require 'in.cursor'
 
 function init(self)
 	self.moving = false
@@ -37,6 +38,7 @@ function on_message(self, message_id, message, sender)
 	end
 
 	if message_id == hash('trigger_response') then
+		pprint(message_id)
 		if message.enter then
 			if sender == msg.url('#collision_range') then
 				print('spotted')
@@ -109,5 +111,15 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash('stop_attacking') then
 		timer.cancel(self.attack_timer)
 		self.is_attacking = false
+	end
+
+	if message_id == cursor.CLICKED then
+		pprint('clicked')
+	end
+
+	if message_id == cursor.OVER then
+		pprint('over')
+		pprint(go.get_position('#collision'))
+		pprint(go.get_position())
 	end
 end

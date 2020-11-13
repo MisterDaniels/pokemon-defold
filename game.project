@@ -15,7 +15,7 @@ input_method = HiddenInputField
 
 [project]
 title = Pokémon Project
-dependencies = https://github.com/rgrams/rendercam/archive/v1.0.2.zip,https://github.com/britzl/defold-websocket/archive/1.6.0.zip,https://github.com/britzl/defold-luasocket/archive/0.11.1.zip,https://github.com/britzl/defold-luasec/archive/1.1.0.zip,https://github.com/heroiclabs/nakama-defold/archive/1.1.1.zip
+dependencies = https://github.com/rgrams/rendercam/archive/v1.0.2.zip,https://github.com/britzl/defold-websocket/archive/1.6.0.zip,https://github.com/britzl/defold-luasocket/archive/0.11.1.zip,https://github.com/britzl/defold-luasec/archive/1.1.0.zip,https://github.com/heroiclabs/nakama-defold/archive/1.1.1.zip,https://github.com/britzl/defold-input/archive/master.zip
 custom_resources = main/data/
 
 [tilemap]

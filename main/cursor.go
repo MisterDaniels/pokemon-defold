@@ -1,6 +1,6 @@
 components {
-  id: "player"
-  component: "/main/player.script"
+  id: "cursor"
+  component: "/in/cursor.script"
   position {
     x: 0.0
     y: 0.0
@@ -11,11 +11,26 @@ components {
     y: 0.0
     z: 0.0
     w: 1.0
+  }
+  properties {
+    id: "drag"
+    value: "true"
+    type: PROPERTY_TYPE_BOOLEAN
+  }
+  properties {
+    id: "drag_threshold"
+    value: "20.0"
+    type: PROPERTY_TYPE_NUMBER
+  }
+  properties {
+    id: "acquire_input_focus"
+    value: "true"
+    type: PROPERTY_TYPE_BOOLEAN
   }
 }
 components {
-  id: "player_pokemon"
-  component: "/main/pokemon/pokemon.factory"
+  id: "controller"
+  component: "/main/controller.script"
   position {
     x: 0.0
     y: 0.0
@@ -29,42 +44,20 @@ components {
   }
 }
 embedded_components {
-  id: "player_sprite"
-  type: "sprite"
-  data: "tile_set: \"/main/player.atlas\"\n"
-  "default_animation: \"player_idle_down\"\n"
-  "material: \"/builtins/materials/sprite.material\"\n"
-  "blend_mode: BLEND_MODE_ALPHA\n"
-  ""
-  position {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-  }
-  rotation {
-    x: 0.0
-    y: 0.0
-    z: 0.0
-    w: 1.0
-  }
-}
-embedded_components {
-  id: "collision"
+  id: "collisionobject"
   type: "collisionobject"
   data: "collision_shape: \"\"\n"
-  "type: COLLISION_OBJECT_TYPE_KINEMATIC\n"
+  "type: COLLISION_OBJECT_TYPE_TRIGGER\n"
   "mass: 0.0\n"
   "friction: 0.0\n"
   "restitution: 0.0\n"
-  "group: \"player\"\n"
-  "mask: \"not_passable\"\n"
-  "mask: \"pokemon\"\n"
-  "mask: \"range\"\n"
-  "mask: \"cursor\"\n"
+  "group: \"cursor\"\n"
   "mask: \"test\"\n"
+  "mask: \"pokemon\"\n"
+  "mask: \"player\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
-  "    shape_type: TYPE_BOX\n"
+  "    shape_type: TYPE_SPHERE\n"
   "    position {\n"
   "      x: 0.0\n"
   "      y: 0.0\n"
@@ -77,11 +70,9 @@ embedded_components {
   "      w: 1.0\n"
   "    }\n"
   "    index: 0\n"
-  "    count: 3\n"
+  "    count: 1\n"
   "  }\n"
-  "  data: 16.0\n"
-  "  data: 23.0\n"
-  "  data: 10.0\n"
+  "  data: 1.0\n"
   "}\n"
   "linear_damping: 0.0\n"
   "angular_damping: 0.0\n"
