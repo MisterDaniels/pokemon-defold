@@ -14,18 +14,13 @@ components {
   }
   properties {
     id: "drag"
-    value: "true"
+    value: "false"
     type: PROPERTY_TYPE_BOOLEAN
   }
   properties {
     id: "drag_threshold"
-    value: "20.0"
+    value: "0.0"
     type: PROPERTY_TYPE_NUMBER
-  }
-  properties {
-    id: "acquire_input_focus"
-    value: "true"
-    type: PROPERTY_TYPE_BOOLEAN
   }
 }
 components {
@@ -47,14 +42,14 @@ embedded_components {
   id: "collisionobject"
   type: "collisionobject"
   data: "collision_shape: \"\"\n"
-  "type: COLLISION_OBJECT_TYPE_TRIGGER\n"
+  "type: COLLISION_OBJECT_TYPE_KINEMATIC\n"
   "mass: 0.0\n"
   "friction: 0.0\n"
   "restitution: 0.0\n"
   "group: \"cursor\"\n"
-  "mask: \"test\"\n"
   "mask: \"pokemon\"\n"
   "mask: \"player\"\n"
+  "mask: \"not_passable\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_SPHERE\n"

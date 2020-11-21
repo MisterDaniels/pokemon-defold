@@ -16,10 +16,12 @@ function init(self)
 			y = 16
 		} 
 	}
+
+	go.property('active', false)
 end
 
 function on_message(self, message_id, message, sender)
-	if message_id == hash('spawn') then
+	if message_id == hash('spawn') and self.active then
 		print('spawn')
 		init_spawn(self, 1)
 	end

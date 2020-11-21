@@ -61,7 +61,6 @@ embedded_components {
   "mask: \"pokemon\"\n"
   "mask: \"range\"\n"
   "mask: \"cursor\"\n"
-  "mask: \"test\"\n"
   "embedded_collision_shape {\n"
   "  shapes {\n"
   "    shape_type: TYPE_BOX\n"

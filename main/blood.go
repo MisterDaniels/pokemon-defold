@@ -19,7 +19,7 @@ embedded_components {
   data: "tile_set: \"/main/effect.atlas\"\n"
   "default_animation: \"blood\"\n"
   "material: \"/builtins/materials/sprite.material\"\n"
-  "blend_mode: BLEND_MODE_ALPHA\n"
+  "blend_mode: BLEND_MODE_MULT\n"
   ""
   position {
     x: 0.0

@@ -1,4 +1,5 @@
 local util_module = require 'main/util'
+local main = require 'main/main'
 local cursor = require 'in.cursor'
 
 function init(self)
@@ -8,22 +9,27 @@ function init(self)
 	self.input = vmath.vector3()
 	self.dir = vmath.vector3(0, 1, 0)
 
-	go.property('owner', hash('pokemon_owner'))
+	go.property('owner', hash('nature'))
 	go.property('go', hash('pokemon_go'))
 	go.property('name', hash('pokemon_name'))
 	go.property('time_between_attack', 3)
 	go.property('damage', 20)
 	go.property('life', 100)
+	go.property('selected', false)
+	go.property('target', nil)
 
 	pokemon_name = util_module.convert_hash_to_string(self.go)
 	local pokemon_instance_sprite = msg.url(nil, go.get_id(), 'pokemon_sprite')
 	msg.post(pokemon_instance_sprite, 'play_animation', { id = hash(pokemon_name .. '_walk_down') })
+	msg.post('#select_sprite', 'disable')
+end
 
-	pprint(go.get_position())
+function update(self, dt)
+	
 end
 
 function on_message(self, message_id, message, sender)
-	pokemon_name = util_module.convert_hash_to_string(self.go)
+	local pokemon_name = util_module.convert_hash_to_string(self.go)
 	
 	if message_id == hash('follow') then
 		util_module.change_animation_by_direction('#pokemon_sprite', message.direction, pokemon_name)
@@ -40,7 +46,7 @@ function on_message(self, message_id, message, sender)
 	if message_id == hash('trigger_response') then
 		pprint(message_id)
 		if message.enter then
-			if sender == msg.url('#collision_range') then
+			if sender == msg.url('#collision_range') and self.owner == hash('nature') then
 				print('spotted')
 
 				if self.is_attacking == false then
@@ -51,17 +57,19 @@ function on_message(self, message_id, message, sender)
 
 							if character_pokemon then
 								msg.post(character_pokemon, 'deal_damage', { damage = random_damage })
+								self.target = character_pokemon
 							else
 								msg.post(message.other_id, 'deal_damage', { damage = random_damage })
+								self.target = message.other_id
 							end
 						end)
-					pprint(message.group)
-					elseif self.owner == hash('player') and message.group == hash('range') then
-						pprint('pokemon player attacking')
+					elseif self.owner == hash('npc') and message.group == hash('range') then
 						self.attack_timer = timer.delay(self.time_between_attack, true, function()
 							local random_damage = util_module.get_random_number_between(0, self.damage)
 
 							msg.post(message.other_id, 'deal_damage', { damage = random_damage })
+
+							self.target = message.other_id
 						end) 
 					end
 
@@ -114,12 +122,66 @@ function on_message(self, message_id, message, sender)
 	end
 
 	if message_id == cursor.CLICKED then
-		pprint('clicked')
+		pprint(self.name)
+		self.selected = not self.selected
+		msg.post('#select_sprite', self.selected and 'enable' or 'disable')
+		msg.post('/ui#main', 'change_target', {
+			name = util_module.convert_hash_to_string(self.name),
+			life = self.life
+		})
 	end
 
-	if message_id == cursor.OVER then
-		pprint('over')
-		pprint(go.get_position('#collision'))
-		pprint(go.get_position())
+	if message_id == hash('attack_pokemon') then
+		pprint('pokemon player attacking')
+		
+		self.target = message.target
+
+		self.chase_timer = timer.delay(self, 1, true, function()
+			local pos = go.get_position()
+			local dest = go.get_position(self.target)
+			local dest_x = dest.x / main.tile_size * main.tile_size
+			local dest_y = dest.y / main.tile_size * main.tile_size
+
+			if math.abs(pos.x - dest_x) > math.abs(pos.y - dest_y) then
+				move_horz = true
+			else
+				move_horz = false
+			end
+			
+			if (pos.x ~= dest_x) or (pos.y ~= dest_y) then
+				if move_horz then
+					if (dest_x - pos.x) < 0 then
+						local sign = -1
+					else
+						local sign = 1
+					end
+					
+					pos.x = pos.x + sign * 0.8
+
+					if pos.x == dest_x then
+						move_horz = false
+					end
+				else
+					if (dest_y - pos.y) < 0 then
+						local sign = -1
+					else
+						local sign = 1
+					end
+					
+					pos.y = pos.y + sign * 0.8
+
+					if pos.y == dest_y then
+						move_horz = true
+					end
+				end
+			end
+		end)
+		
+		self.attack_timer = timer.delay(self.time_between_attack, true, function()
+			local random_damage = util_module.get_random_number_between(0, self.damage)
+			msg.post(self.target, 'deal_damage', { damage = random_damage })
+		end)
+
+		self.is_attacking = true
 	end
 end

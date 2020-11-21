@@ -47,10 +47,10 @@ function on_message(self, message_id, message, sender)
 
 	if message_id == hash('change_target') then
 		local target_pokemon_name_node = gui.get_node('target_pokemon_name')
-		gui.set_enabled(target_pokemon_name_node, false)
+		gui.set_text(target_pokemon_name_node, message.name)
 
 		local target_pokemon_life = gui.get_node('target_pokemon_life')
-		gui.set_enabled(target_pokemon_life, false)
+		gui.set_text(target_pokemon_life, message.life)
 
 		if self.target_pokemon_hided then
 			gui.set_enabled(target_pokemon_name_node, true)

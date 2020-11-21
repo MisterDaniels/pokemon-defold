@@ -1,21 +1,20 @@
-local cursor = require "in.cursor"
+local cursor = require 'in.cursor'
+local rendercam = require 'rendercam.rendercam'
+local util_module = require 'main/util'
 
 function init(self)
 	if not go.get("#cursor", "acquire_input_focus") then
 		self.forward_input = true
 		msg.post(".", "acquire_input_focus")
 	end
-
-	cursor.listen(msg.url("#cursor"), cursor.DRAG_START, function(message_id, message)
-		-- prevent dragging of blue aliens
-		if message.group == hash("player") then
-			return true
-		end
-	end)
 end
 
 function on_input(self, action_id, action)
 	if self.forward_input then
+		local mouse_world_pos = rendercam.screen_to_world_2d(action.screen_x, action.screen_y)
+		action.x = mouse_world_pos.x
+		action.y = mouse_world_pos.y
+		
 		msg.post("#cursor", "input", { action_id = action_id, action = action })
 	end
 end
@@ -27,16 +26,11 @@ function on_message(self, message_id, message, sender)
 		print("Cursor out", message.id, message.group, message.x, message.y)
 	elseif message_id == cursor.PRESSED then
 		print("Pressed", message.id, message.group, message.x, message.y)
-	elseif message_id == cursor.RELEASED then
-		print("Released", message.id, message.group, message.x, message.y)
 	elseif message_id == cursor.CLICKED then
-		print("Clicked", message.id, message.group, message.x, message.y)
-		if message.group == hash("blue") then
-			go.delete(message.id)
+		if go.get(util_module.convert_hash_to_string(message.id) .. '#pokemon', 'owner') == hash('nature') then
+			msg.post('/player#player', 'player_attack', {
+				pokemon = message.id
+			})
 		end
-	elseif message_id == cursor.DRAG_START then
-		print("Drag started", message.id, message.group, message.x, message.y)
-	elseif message_id == cursor.DRAG_END then
-		print("Drag ended", message.id, message.group, message.x, message.y)
 	end
 end

@@ -50,6 +50,10 @@ mouse_trigger {
   input: MOUSE_BUTTON_1
   action: "touch"
 }
+mouse_trigger {
+  input: MOUSE_BUTTON_LEFT
+  action: "touch"
+}
 gamepad_trigger {
   input: GAMEPAD_RSTICK_LEFT
   action: "left"
