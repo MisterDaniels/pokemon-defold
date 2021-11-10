@@ -31,7 +31,7 @@ end
 function on_message(self, message_id, message, sender)
 	local pokemon_name = util_module.convert_hash_to_string(self.go)
 	
-	if message_id == hash('follow') then
+	if message_id == hash('follow') and self.is_attacking == false then
 		util_module.change_animation_by_direction('#pokemon_sprite', message.direction, pokemon_name)
 
 		if message.position == hash('go_back') then
@@ -135,47 +135,6 @@ function on_message(self, message_id, message, sender)
 		pprint('pokemon player attacking')
 		
 		self.target = message.target
-
-		self.chase_timer = timer.delay(self, 1, true, function()
-			local pos = go.get_position()
-			local dest = go.get_position(self.target)
-			local dest_x = dest.x / main.tile_size * main.tile_size
-			local dest_y = dest.y / main.tile_size * main.tile_size
-
-			if math.abs(pos.x - dest_x) > math.abs(pos.y - dest_y) then
-				move_horz = true
-			else
-				move_horz = false
-			end
-			
-			if (pos.x ~= dest_x) or (pos.y ~= dest_y) then
-				if move_horz then
-					if (dest_x - pos.x) < 0 then
-						local sign = -1
-					else
-						local sign = 1
-					end
-					
-					pos.x = pos.x + sign * 0.8
-
-					if pos.x == dest_x then
-						move_horz = false
-					end
-				else
-					if (dest_y - pos.y) < 0 then
-						local sign = -1
-					else
-						local sign = 1
-					end
-					
-					pos.y = pos.y + sign * 0.8
-
-					if pos.y == dest_y then
-						move_horz = true
-					end
-				end
-			end
-		end)
 		
 		self.attack_timer = timer.delay(self.time_between_attack, true, function()
 			local random_damage = util_module.get_random_number_between(0, self.damage)
@@ -184,4 +143,52 @@ function on_message(self, message_id, message, sender)
 
 		self.is_attacking = true
 	end
+end
+
+function attack_pokemon()
+	self.chase_timer = timer.delay(0.2, true, function()
+		local pos = go.get_position()
+		local dest = go.get_position(self.target)
+		local dest_x = dest.x / main.tile_size * main.tile_size
+		local dest_y = dest.y / main.tile_size * main.tile_size
+
+		if math.abs(pos.x - dest_x) > math.abs(pos.y - dest_y) then
+			move_horz = true
+		else
+			move_horz = false
+		end
+
+		if (pos.x ~= dest_x) or (pos.y ~= dest_y) then
+			if move_horz then
+				local sign
+				if (dest_x - pos.x) < 0 then
+					sign = -16
+				else
+					sign = 16
+				end
+
+				pos.x = pos.x + sign * 0.8
+
+				if pos.x == dest_x then
+					move_horz = false
+				end
+			else
+				local sign
+				if (dest_y - pos.y) < 0 then
+					sign = -16
+				else
+					sign = 16
+				end
+
+				pos.y = pos.y + sign * 0.8
+
+				if pos.y == dest_y then
+					move_horz = true
+				end
+			end
+		end
+
+		go.set_position(pos)
+		self.is_attacking = true
+	end)
 end

@@ -1,7 +1,7 @@
 animations {
   id: "blood"
   images {
-    image: "/main/assets/blood.png"
+    image: "/main/assets/pokemon_outline.png"
     sprite_trim_mode: SPRITE_TRIM_MODE_OFF
   }
   playback: PLAYBACK_ONCE_FORWARD
